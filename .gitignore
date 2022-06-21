@@ -3,6 +3,8 @@
 *.pyc
 core
 .vscode/
+.idea
+cmake-build*
 
 # generated
 libmavconn/include/mavconn/mavlink_dialect.hpp

@@ -252,14 +252,14 @@ static void url_parse_query(const std::string & query, uint8_t & sysid, uint8_t 
     query.begin(), query.end(),
     ids_end.begin(), ids_end.end());
   if (ids_it == query.end()) {
-    CONSOLE_BRIDGE_logWarn(PFX "URL: unknown query arguments");
+    CONSOLE_BRIDGE_logWarn(PFX "URL: unknown query arguments", "");
     return;
   }
 
   std::advance(ids_it, ids_end.length());
   auto comma_it = std::find(ids_it, query.end(), ',');
   if (comma_it == query.end()) {
-    CONSOLE_BRIDGE_logError(PFX "URL: no comma in ids= query");
+    CONSOLE_BRIDGE_logError(PFX "URL: no comma in ids= query", "");
     return;
   }
 
@@ -300,7 +300,7 @@ static MAVConnInterface::Ptr url_parse_udp(
 
   auto sep_it = std::find(hosts.begin(), hosts.end(), '@');
   if (sep_it == hosts.end()) {
-    CONSOLE_BRIDGE_logError(PFX "UDP URL should contain @!");
+    CONSOLE_BRIDGE_logError(PFX "UDP URL should contain @!", "");
     throw DeviceError("url", "UDP separator not found");
   }
 
@@ -445,7 +445,7 @@ MAVConnInterface::Ptr MAVConnInterface::open_url(
     if (!cb_handle_message) {
       CONSOLE_BRIDGE_logWarn(
         PFX "You did not provide message handling callback to open_url(), "
-        "It is unsafe to set it later.");
+        "It is unsafe to set it later.", "");
     }
     interface_ptr->connect(cb_handle_message, cb_handle_closed_port);
   }

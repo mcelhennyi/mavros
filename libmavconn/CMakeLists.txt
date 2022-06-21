@@ -1,15 +1,17 @@
 cmake_minimum_required(VERSION 3.5)
 project(libmavconn)
 
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ../../mavlink-gbp-release/build/usr/local/share/mavlink/cmake)
+
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
 endif()
 
-# Default to C++20
+# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 20)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
+  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # we dont use add_compile_options with pedantic in message packages
@@ -22,13 +24,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcomment")
 set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-find_package(ament_cmake REQUIRED)
+#find_package(ament_cmake REQUIRED)
 
 # add package modules path, not needed in dependend packages
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 ## System dependencies are found with CMake's conventions
-find_package(console_bridge REQUIRED)
 find_package(ASIO REQUIRED)
 find_package(mavlink REQUIRED)
 
@@ -39,7 +40,6 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/generated/include
   ${ASIO_INCLUDE_DIRS}
   ${mavlink_INCLUDE_DIRS}
-  ${console_bridge_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -49,9 +49,6 @@ add_library(mavconn SHARED
   src/serial.cpp
   src/tcp.cpp
   src/udp.cpp
-)
-ament_target_dependencies(mavconn
-  "console_bridge"
 )
 
 # Use em_expand macros to generate source files
@@ -89,29 +86,3 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/generated/include/mavconn/
 install(DIRECTORY cmake
   DESTINATION share/${PROJECT_NAME}
 )
-
-if(BUILD_TESTING)
-  find_package(ament_cmake_gtest REQUIRED)
-  find_package(ament_lint_auto REQUIRED)
-
-  # NOTE(vooon): Does not support our custom triple-license, tiered to make it to work.
-  list(APPEND AMENT_LINT_AUTO_EXCLUDE ament_cmake_copyright)
-
-  ament_lint_auto_find_test_dependencies()
-
-  ament_add_gtest(test_mavconn test/test_mavconn.cpp)
-  target_link_libraries(test_mavconn mavconn)
-  ament_target_dependencies(test_mavconn
-    "console_bridge"
-  )
-endif()
-
-ament_export_dependencies(console_bridge)
-ament_export_include_directories(include)
-ament_export_libraries(mavconn)
-#ament_export_targets(mavconn)
-ament_package(
-  CONFIG_EXTRAS "libmavconn-extras.cmake"
-)
-
-# vim: ts=2 sw=2 et:

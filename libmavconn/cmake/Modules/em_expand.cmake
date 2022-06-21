@@ -37,6 +37,45 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+function(assert VAR)
+  if(NOT ${VAR})
+    message(FATAL_ERROR "\nAssertion failed: ${VAR} (value is '${${VAR}}')\n")
+  endif()
+  debug_message(3 "assert(${VAR}) passed (${VAR} = ${${VAR}})")
+endfunction()
+
+function(assert_unset VAR)
+  if(${VAR})
+    message(FATAL_ERROR "\nAssertion failed: '${VAR}' is set but should not be (value is '${${VAR}}')\n")
+  endif()
+  debug_message(3 "assert_unset(${VAR}) passed")
+endfunction()
+
+function(assert_file_exists FILENAME MESSAGE)
+  if(NOT FILENAME)
+    message(FATAL_ERROR "\nAssertion failed:  check for file existence, but filename (${FILENAME}) unset. Message: ${MESSAGE}\n")
+  endif()
+  if(NOT EXISTS ${FILENAME})
+    message(FATAL_ERROR "\nAssertion failed:  file '${FILENAME}' does not exist.  Message: ${MESSAGE}\n")
+  endif()
+endfunction()
+
+function(stamp path)
+  get_filename_component(filename "${path}" NAME)
+  configure_file(${path}
+          ${CMAKE_CURRENT_BINARY_DIR}/catkin_generated/stamps/${PROJECT_NAME}/${filename}.stamp
+          COPYONLY)
+endfunction()
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+# TODO: Maybe in DIFFERENT FILE?
+
+
 find_package(Python3 COMPONENTS Interpreter)
 
 function(em_expand context_in context_out em_file_in file_out)
