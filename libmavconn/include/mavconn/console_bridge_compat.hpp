@@ -43,7 +43,7 @@
 #define CONSOLE_BRIDGE_BASE(LOG_LEVEL, fmt, ...) \
 {                                        \
       std::string console_bridge_str(fmt);    \
-      console_bridge_str = console_bridge_str.append(__FILE__).append(" ").append(std::to_string(__LINE__)).append(" ").append("DEBUG").append(": "); \
+      console_bridge_str = console_bridge_str.append(__FILE__).append(" ").append(std::to_string(__LINE__)).append(" ").append(LOG_LEVEL).append(": "); \
       printf(console_bridge_str.c_str(), \
         ## __VA_ARGS__); \
 }

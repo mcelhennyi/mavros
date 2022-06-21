@@ -33,7 +33,7 @@ using mavconn::MAVConnInterface;
 
 void MAVConnInterface::init_msg_entry()
 {
-  CONSOLE_BRIDGE_logDebug("mavconn: Initialize message_entries map");
+  CONSOLE_BRIDGE_logDebug("mavconn: Initialize message_entries map", "");
 
   auto load = [&](const char* dialect, const mavlink::mavlink_msg_entry_t& e) {
     auto it = message_entries.find(e.msgid);
