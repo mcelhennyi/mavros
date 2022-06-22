@@ -50,14 +50,14 @@
 
 
 #ifndef CONSOLE_BRIDGE_logDebug
-    #ifdef NDEBUG
+    #if !NDEBUG && LOG_DEBUG
         #define CONSOLE_BRIDGE_logDebug(fmt, ...) \
             CONSOLE_BRIDGE_BASE("DEBUG", fmt, __VA_ARGS__)
     #else
         #define CONSOLE_BRIDGE_logDebug(fmt, ...) \
-            (void)0;
-    #endif
-#endif  // CONSOLE_BRIDGE_logDebug
+                    (void)0;
+    #endif  // CONSOLE_BRIDGE_logDebug
+#endif
 
 #ifndef CONSOLE_BRIDGE_logInform
 #define CONSOLE_BRIDGE_logInform(fmt, ...) \
