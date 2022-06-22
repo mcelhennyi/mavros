@@ -48,9 +48,15 @@
         ## __VA_ARGS__); \
 }
 
+
 #ifndef CONSOLE_BRIDGE_logDebug
-#define CONSOLE_BRIDGE_logDebug(fmt, ...) \
-    CONSOLE_BRIDGE_BASE("DEBUG", fmt, __VA_ARGS__)
+    #ifdef NDEBUG
+        #define CONSOLE_BRIDGE_logDebug(fmt, ...) \
+            CONSOLE_BRIDGE_BASE("DEBUG", fmt, __VA_ARGS__)
+    #else
+        #define CONSOLE_BRIDGE_logDebug(fmt, ...) \
+            (void)0;
+    #endif
 #endif  // CONSOLE_BRIDGE_logDebug
 
 #ifndef CONSOLE_BRIDGE_logInform

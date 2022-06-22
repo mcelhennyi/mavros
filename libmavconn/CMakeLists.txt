@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 project(libmavconn)
 
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ../../mavlink-gbp-release/build/usr/local/share/mavlink/cmake)
+if(NOT MAVLINK_INSTALL_PATH)
+  message(FATAL_ERROR "Set the MAVLINK_INSTALL_PATH where the lib/include/share folder is located!")
+else()
+  set(mavlink_DIR ${MAVLINK_INSTALL_PATH}/share/mavlink/cmake)
+endif()
 
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
@@ -20,7 +24,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcomment")
 
-# Allow GNU extensions (-std=gnu++20)
+# Allow GNU extensions (-std=gnu++14)
 set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
